@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matn Tahlilchisi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f4f7f6; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        textarea { width: 100%; height: 150px; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; resize: vertical; outline: none; margin-bottom: 20px; }
+        textarea:focus { border-color: #4361ee; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; }
+        .stat-card { background: #f8f9ff; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #e9ecef; }
+        .stat-card .num { font-size: 24px; font-weight: bold; color: #4361ee; }
+        .stat-card .label { font-size: 13px; color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📊 Matn Tahlilchisi</h2>
+        <textarea id="textInput" placeholder="Bu yerda matn yozing yoki joylashtiring..."></textarea>
+        <div class="stats">
+            <div class="stat-card"><div class="num" id="words">0</div><div class="label">So'zlar</div></div>
+            <div class="stat-card"><div class="num" id="chars">0</div><div class="label">Belgilar</div></div>
+            <div class="stat-card"><div class="num" id="sentences">0</div><div class="label">Gaplar</div></div>
+            <div class="stat-card"><div class="num" id="readTime">0</div><div class="label">O'qish vaqti (daq)</div></div>
+        </div>
+    </div>
+
+    <script>
+        const textarea = document.getElementById('textInput');
+        textarea.addEventListener('input', analyze);
+
+        function analyze() {
+            const text = textarea.value;
+            document.getElementById('chars').textContent = text.length;
+            
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            document.getElementById('words').textContent = words;
+            
+            const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            document.getElementById('sentences').textContent = sentences;
+            
+            document.getElementById('readTime').textContent = Math.ceil(words / 200);
+        }
+    </script>
+</body>
+</html>
